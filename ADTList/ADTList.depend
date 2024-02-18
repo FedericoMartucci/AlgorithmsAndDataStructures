@@ -1,0 +1,12 @@
+# depslib dependency file v1.0
+1707354988 source:c:\devs\adt\dynamic\list.c
+	"List.h"
+
+1707354983 c:\devs\adt\dynamic\list.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+
+1707355051 source:c:\devs\adtlist\main.c
+	"../ADT/Dynamic/List.h"
+

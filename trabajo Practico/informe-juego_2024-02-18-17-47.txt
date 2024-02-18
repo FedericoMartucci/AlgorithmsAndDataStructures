@@ -1,0 +1,8 @@
+LETRA-JUGADOR jugador              
+  O:          oso               3  
+  A:                            0  
+  A:                            0  
+  A:                            0  
+RESULT:                         3  
+GANADORES: |jugador| 
+PUNTAJE GANADOR:3

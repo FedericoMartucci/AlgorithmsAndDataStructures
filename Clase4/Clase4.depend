@@ -1,0 +1,12 @@
+# depslib dependency file v1.0
+1706837920 source:c:\devs\clase4\cola.c
+	"cola.h"
+
+1706837818 c:\devs\clase4\cola.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+
+1706837824 source:c:\devs\clase4\main.c
+	"cola.h"
+

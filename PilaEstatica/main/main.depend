@@ -1,0 +1,9 @@
+# depslib dependency file v1.0
+1707086906 source:c:\devs\pilaestatica\main\pila.c
+	"pila.h"
+
+1706994048 c:\devs\pilaestatica\main\pila.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+

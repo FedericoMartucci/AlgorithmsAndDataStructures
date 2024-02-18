@@ -1,0 +1,12 @@
+# depslib dependency file v1.0
+1703724845 source:c:\devs\unit5-recursivity\main\main.c
+	"recursivity.h"
+
+1703721094 c:\devs\unit5-recursivity\main\recursivity.h
+	<stdio.h>
+	<stdlib.h>
+
+1703725180 source:c:\devs\unit5-recursivity\main\recursivity.c
+	"recursivity.h"
+	<time.h>
+

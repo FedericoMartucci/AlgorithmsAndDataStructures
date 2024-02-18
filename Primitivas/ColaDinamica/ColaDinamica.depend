@@ -1,0 +1,9 @@
+# depslib dependency file v1.0
+1707600436 source:c:\devs\primitivas\coladinamica\main.c
+	"colaDinamica.h"
+
+1707600436 c:\devs\primitivas\coladinamica\coladinamica.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+

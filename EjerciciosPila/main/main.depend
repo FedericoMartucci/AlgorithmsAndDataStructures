@@ -1,0 +1,19 @@
+# depslib dependency file v1.0
+1707090005 source:c:\devs\ejerciciospila\main\main.c
+	"menu.h"
+
+1707131974 c:\devs\ejerciciospila\main\menu.h
+	"../../PilaDinamica/main/pila.h"
+
+1706992956 c:\devs\piladinamica\main\pila.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+
+1707132146 source:c:\devs\ejerciciospila\main\menu.c
+	"menu.h"
+	"../../PilaDinamica/main/pila.h"
+
+1706992870 source:c:\devs\piladinamica\main\pila.c
+	"pila.h"
+

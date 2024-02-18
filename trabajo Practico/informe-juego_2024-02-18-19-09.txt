@@ -1,0 +1,9 @@
+LETRA-JUGADOR aaa                  aaa                  aaa                  aaa                  
+  W:          awdwda           -2  wadw             -2                    0                    0  
+  U:          awdawd           -2  dawawd           -2                    0                    0  
+  I:          awdwad           -2  wda              -2                    0                    0  
+  E:          wadawd           -2  wad              -2                    0                    0  
+  J:          wdaawd           -2  awd              -2                    0                    0  
+RESULT:                        -10                   -10                    0                    0  
+GANADORES: |aaa| |aaa| 
+PUNTAJE GANADOR:0

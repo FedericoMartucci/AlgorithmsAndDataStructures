@@ -1,0 +1,8 @@
+LETRA-JUGADOR jugador              
+  B:          Ba£l             -2  
+  A:                            0  
+  A:                            0  
+  A:                            0  
+RESULT:                        -2  
+GANADORES: |jugador| 
+PUNTAJE GANADOR:-2

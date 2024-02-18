@@ -1,0 +1,9 @@
+LETRA-JUGADOR jugador1             jugador2             jugador3             
+  M:          manzana           1  municipalidad     3  mano              1  
+  A:          arbol             1  arandano          3  aveja            -2  
+  C:          casamiento        3  casas             1  casa              1  
+  T:          tijera            1  tatuaje           3  tatuaje          -1  
+  P:          pinza             2  perro             2                    0  
+RESULT:                         8                   12                   -1  
+GANADORES: |jugador2| 
+PUNTAJE GANADOR:12

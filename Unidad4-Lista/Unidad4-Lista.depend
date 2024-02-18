@@ -1,0 +1,18 @@
+# depslib dependency file v1.0
+1707776936 source:c:\devs\primitivas\listasimple\listasimple.c
+	"listaSimple.h"
+
+1707776930 c:\devs\primitivas\listasimple\listasimple.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+
+1707776930 source:c:\devs\unidad4-lista\ejercicios.c
+	"ejercicios.h"
+
+1707776930 c:\devs\unidad4-lista\ejercicios.h
+	"../Primitivas/ListaSimple/listaSimple.h"
+
+1707776930 source:c:\devs\unidad4-lista\main.c
+	"ejercicios.h"
+

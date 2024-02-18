@@ -1,0 +1,29 @@
+Primero:
+- Cargar el archivo <”datos”> en una Lista dinámica.
+- No incluir el nombre del proveedor.
+- Insertar al final de la lista.
+
+LISTO LO DE ARRIBA
+
+
+
+Igual ID y desc coinciden
+ACUMULAR:
+- Ult fecha de compra.
+- Fecha de vencimiento mas vieja.
+- Mayor precio de compra.
+- Mayor precio de venta.
+
+
+Igual ID y desc no coincide:
+- Generar nuevo nodo en la lista.
+
+
+MANEJO DE ERRORES:
+- Eliminar nodos de igual ID.
+- Mostrar info por pantalla.
+- Grabar en "errores2.txt" cada nodo.
+
+Finalmente
+- Ordenar lista resultante.
+- Grabar depurado.bin

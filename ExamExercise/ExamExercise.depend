@@ -1,0 +1,12 @@
+# depslib dependency file v1.0
+1704946042 source:c:\devs\examexercise\main.c
+	"file.h"
+
+1704946298 c:\devs\examexercise\file.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+
+1704946162 source:c:\devs\examexercise\list.c
+	"file.h"
+

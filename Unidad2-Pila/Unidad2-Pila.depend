@@ -1,0 +1,18 @@
+# depslib dependency file v1.0
+1707600164 source:c:\devs\primitivas\piladinamica\pila.c
+	"pila.h"
+
+1707599018 c:\devs\primitivas\piladinamica\pila.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+
+1707667177 source:c:\devs\unidad2-pila\main.c
+	"ejercicios.h"
+
+1707665322 c:\devs\unidad2-pila\ejercicios.h
+	"../Primitivas/PilaDinamica/pila.h"
+
+1707667001 source:c:\devs\unidad2-pila\ejercicios.c
+	"ejercicios.h"
+

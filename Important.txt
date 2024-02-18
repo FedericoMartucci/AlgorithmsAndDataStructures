@@ -1,0 +1,7 @@
+Mostrar lista simple en orden inverso filtrado por clave. Recursivo y sin recursividad.
+
+Arbol:
+- insertar en arbol (fundamental) 
+- eliminar raiz (picadaaa)
+- cargar desde datos ordenados (recursivo)(no la suelen tomar)
+- insertar archivo ordenado (full picado)

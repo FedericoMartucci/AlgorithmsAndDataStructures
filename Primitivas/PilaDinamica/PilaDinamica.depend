@@ -1,0 +1,12 @@
+# depslib dependency file v1.0
+1707598909 source:c:\devs\primitivas\piladinamica\main.c
+	"pila.h"
+
+1707599018 c:\devs\primitivas\piladinamica\pila.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+
+1707598909 source:c:\devs\primitivas\piladinamica\pila.c
+	"pila.h"
+

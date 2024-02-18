@@ -1,0 +1,12 @@
+# depslib dependency file v1.0
+1707774154 source:c:\devs\primitivas\listasimple\main.c
+	"listaSimple.h"
+
+1707774574 c:\devs\primitivas\listasimple\listasimple.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+
+1707774574 source:c:\devs\primitivas\listasimple\listasimple.c
+	"listaSimple.h"
+

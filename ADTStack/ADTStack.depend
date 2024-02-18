@@ -1,0 +1,49 @@
+# depslib dependency file v1.0
+1703104316 source:c:\devs\algoritmos\adt\stack.c
+	"Stack.h"
+
+1703103774 c:\devs\algoritmos\adt\stack.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+
+1703094035 source:c:\devs\algoritmos\adtstack\main.c
+	"../ADT/Stack.h"
+
+1703104316 source:c:\devs\adt\stack.c
+	"Stack.h"
+
+1703103774 c:\devs\adt\stack.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+
+1703115560 source:c:\devs\adt\static\stack.c
+	"Stack.h"
+
+1707174590 source:c:\devs\adtstack\main.c
+	"../ADT/Static/Stack.h"
+	"../ADT/Static/Batch.h"
+
+1703179869 c:\devs\adt\dynamic\stack.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+
+1703203290 source:c:\devs\adt\dynamic\stack.c
+	"Stack.h"
+
+1703115679 c:\devs\adt\static\stack.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+
+1703186069 c:\devs\adt\static\batch.h
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+	"Stack.h"
+
+1707174725 source:c:\devs\adt\static\batch.c
+	"Batch.h"
+

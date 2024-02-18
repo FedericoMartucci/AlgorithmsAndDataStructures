@@ -1,0 +1,12 @@
+# depslib dependency file v1.0
+1703187466 source:c:\devs\adt\dynamic\queue.c
+	"Queue.h"
+
+1703194221 c:\devs\adt\dynamic\queue.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+
+1703187466 source:c:\devs\adtqueue\main.c
+	"../ADT/Dynamic/Queue.h"
+
