@@ -333,9 +333,9 @@ int obtenerDatoPorIndex(tLista* pl, void* dato,unsigned tam,unsigned index)
     return TODO_OK;
 }
 
-int obtenerDirrecionDatoPorIndex(tLista* pl, void* dato,unsigned tam,unsigned index)
+int obtenerDireccionDatoPorIndex(tLista* pl, void* dato, unsigned tam, unsigned index)
 {
-    while( *pl!=NULL && index>0)
+    while( *pl != NULL && index > 0)
     {
         index--;
         pl=&(*pl)->sig;

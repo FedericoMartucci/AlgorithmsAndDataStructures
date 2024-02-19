@@ -3,22 +3,22 @@
 char obtenerLetraPorTeclado()
 {
     char opcion;
-    scanf("%c",&opcion);
+    scanf("%c", &opcion);
     fflush(stdin);
     return opcion;      //deolver siempre en mayuscula la opcion
 }
 
 void obtenerOpcionPorTeclado(char* opcion){
-    scanf("%s",opcion);
+    scanf("%s", opcion);
     fflush(stdin);
 }
 
 void obtenerPalabraDuranteNSegundos(char* palabra, int tiempoLimite)
 {
-    *palabra='\0';
-
     time_t startTime = time(NULL);
     int cursorPosition = 0;  // Posición del cursor en el buffer
+
+    *palabra = '\0';
 
     while (difftime(time(NULL), startTime) < tiempoLimite)
     {

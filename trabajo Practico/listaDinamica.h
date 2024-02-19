@@ -62,6 +62,6 @@ int eliminarNUltimos(tLista* pl, int n);        //devuelve si es 0 es que se bor
 
 int buscarDatoPorClave(tLista* pl, void* dato, unsigned tam, Cmp cmp);
 int obtenerDatoPorIndex(tLista* pl, void* dato, unsigned tam, unsigned index);
-int obtenerDirrecionDatoPorIndex(tLista* pl, void* dato, unsigned tam, unsigned index);
+int obtenerDireccionDatoPorIndex(tLista* pl, void* dato, unsigned tam, unsigned index);
 
 #endif // LISTADINAMICA_H_INCLUDED

@@ -9,6 +9,7 @@
 #include <unistd.h>
 
 #define MAX_NAME_LENGTH 100
+
 char obtenerLetraPorTeclado();
 void obtenerPalabraDuranteNSegundos(char* palabra, int tiempoLimite);
 void obtenerOpcionPorTeclado(char* opcion);

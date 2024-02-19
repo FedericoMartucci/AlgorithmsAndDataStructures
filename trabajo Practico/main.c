@@ -8,9 +8,9 @@ int main()
     tJuego juego;
     crearJuego(&juego);
 
-    if(!cargarJuego(&juego,"X-Secret: a0a16e77b741c7ef61af030eeb24a4027dfb64dd50b7f7c34bbb499b20b15eef"))   //escribir aca su codigo secreto de la pagina pons
+    if(!cargarJuego(&juego, "X-Secret: a0a16e77b741c7ef61af030eeb24a4027dfb64dd50b7f7c34bbb499b20b15eef"))   //escribir aca su codigo secreto de la pagina pons
     {
-        perror("No se pudo cargar el juego");
+        fprintf(stderr, "No se pudo cargar el juego");
         return 0;
     }
 
@@ -32,7 +32,8 @@ int main()
         ingresarJugadores(&juego);
         if(hayJugadores(&juego))
         {
-            if(crearTableroResp(&juego) == TODO_OK && sortearOrdenJugadores(&juego) == TODO_OK)
+            if(crearTableroResp(&juego) == TODO_OK &&
+               sortearOrdenJugadores(&juego) == TODO_OK)
             {
                 mostrarJugadores(&juego);
                 iniciarJuego(&juego);
