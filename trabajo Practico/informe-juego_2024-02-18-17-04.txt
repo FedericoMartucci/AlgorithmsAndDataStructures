@@ -1,8 +1,0 @@
-LETRA-JUGADOR hola                 dos                  
-  B:          texto            -2                    0  
-  C:          res              -2                    0  
-  W:                            0                    0  
-  Y:                            0                    0  
-RESULT:                        -4                    0  
-GANADORES: |dos| 
-PUNTAJE GANADOR:0

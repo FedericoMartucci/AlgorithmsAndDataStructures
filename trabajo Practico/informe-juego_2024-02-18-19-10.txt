@@ -1,9 +1,0 @@
-LETRA-JUGADOR wdaw                 aawd                 
-  R:                            0                    0  
-  A:                            0                    0  
-  B:                            0                    0  
-  C:                            0                    0  
-  U:                            0                    0  
-RESULT:                         0                    0  
-GANADORES: |wdaw| |aawd| 
-PUNTAJE GANADOR:0

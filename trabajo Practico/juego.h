@@ -1,6 +1,6 @@
 #ifndef JUEGO_H_INCLUDED
 #define JUEGO_H_INCLUDED
-#include "listaDinamica.h"
+#include "arbol.h"
 #include "curlReducido.h"
 #include "teclado.h"
 #include "jugador.h"
@@ -40,7 +40,7 @@ typedef struct
 
 typedef struct
 {
-    tLista jugadores;   //lista //tJugadores , que tiene una lista
+    tArbol jugadores;   //lista //tJugadores , que tiene una lista
     char* letras;
     unsigned tiempoRound;
     unsigned cantRondas;

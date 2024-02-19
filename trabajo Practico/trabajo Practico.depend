@@ -171,10 +171,10 @@
 	<curl/curl.h>
 	<string.h>
 
-1708306530 source:c:\devs\trabajo practico\jugador.c
+1708308527 source:c:\devs\trabajo practico\jugador.c
 	"jugador.h"
 
-1708306530 c:\devs\trabajo practico\jugador.h
+1708308517 c:\devs\trabajo practico\jugador.h
 	<stdio.h>
 	<stdlib.h>
 
@@ -186,13 +186,11 @@
 	<stdlib.h>
 	<string.h>
 
-1708294580 source:c:\devs\trabajo practico\main.c
-	<stdio.h>
-	<stdlib.h>
+1708306931 source:c:\devs\trabajo practico\main.c
 	"juego.h"
 
-1708301732 c:\devs\trabajo practico\juego.h
-	"listaDinamica.h"
+1708308331 c:\devs\trabajo practico\juego.h
+	"arbol.h"
 	"curlReducido.h"
 	"teclado.h"
 	"jugador.h"
@@ -211,6 +209,14 @@
 1708306807 source:c:\devs\trabajo practico\teclado.c
 	"teclado.h"
 
-1708301736 source:c:\devs\trabajo practico\juego.c
+1708308203 source:c:\devs\trabajo practico\juego.c
 	"juego.h"
+
+1708307459 source:c:\devs\trabajo practico\arbol.c
+	"arbol.h"
+
+1708307433 c:\devs\trabajo practico\arbol.h
+	<stddef.h>
+	<stdlib.h>
+	<string.h>
 

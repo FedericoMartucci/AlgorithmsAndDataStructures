@@ -5,10 +5,15 @@ int compararTurnos(const void* jugador1, const void* jugador2)
     return ((tJugador*)jugador1)->turno - ((tJugador*)jugador2)->turno;
 }
 
-void mostrarJugador(void* dato)
+void mostrarJugador(const void* jugador)
 {
-    tJugador* jugador = dato;
-    printf("Turno %d - Jugador: %s\n", jugador->turno, jugador->nombre);
+    printf("Turno %d - Jugador: %s\n",
+           ((tJugador*)jugador)->turno,
+           ((tJugador*)jugador)->nombre);
+}
+
+void imprimirNombreJugador(const void* jugador,void *salida){
+    fprintf((FILE*) salida, "%-17s\t", ((tJugador*)jugador)->nombre);
 }
 
 void cambiarTurnos(void* jugador, void *dato)

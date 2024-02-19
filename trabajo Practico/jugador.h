@@ -20,7 +20,8 @@ void mezclarJugadores(tOrden* orden, int cant);
 void liberarOrden(tOrden* orden);
 
 int compararTurnos(const void* jugador1, const void* jugador2);
-void mostrarJugador(void* dato);
+void mostrarJugador(const void* dato);
 void cambiarTurnos(void* jugador, void *dato);
+void imprimirNombreJugador(const void* jugador, void *salida);
 
 #endif // JUGADOR_H_INCLUDED

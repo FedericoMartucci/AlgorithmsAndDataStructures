@@ -117,7 +117,8 @@ void ingresarJugadores(tJuego* juego)
 
     while(*(jugadorActual.nombre) != '0')
     {
-        ponerEnPrimero(&juego->jugadores, &jugadorActual, sizeof(tJugador));    ///ingresar en arbol
+        insertarEnArbolRecursivo(&juego->jugadores, &jugadorActual,
+                                 sizeof(tJugador), compararTurnos);
         juego->cantJugadores ++;
         numJugador ++;
         ingresarNombreJugador(numJugador, &jugadorActual);
@@ -137,7 +138,7 @@ void ingresarNombreJugador(int numJugador, tJugador* jugadorActual)
 
 int hayJugadores(const tJuego* juego)
 {
-    return !listaVacia(&juego->jugadores);          ///arbol vacio
+    return !arbolVacio(&juego->jugadores);
 }
 
 int sortearOrdenJugadores(tJuego* juego)
@@ -146,7 +147,7 @@ int sortearOrdenJugadores(tJuego* juego)
 
     if(juego->modoPrueba == ACTIVADO)         //esto evita sortear la lista, si el modo de prueba esta activado
     {
-        ordenarLista(&juego->jugadores, compararTurnos);     ///ordenar arbol
+        ordenarArbolBinario(&juego->jugadores, compararTurnos);
         return TODO_OK;
     }
 
@@ -157,16 +158,17 @@ int sortearOrdenJugadores(tJuego* juego)
     }
 
     mezclarJugadores(&orden, juego->cantJugadores);
-    recorrerLista2(&juego->jugadores, &orden, cambiarTurnos); ///recorrer arbol
-    ordenarLista(&juego->jugadores, compararTurnos);         ///ordenar arbol
-    liberarOrden(&orden);       //
+    mapInOrdenConContexto(&juego->jugadores, &orden, cambiarTurnos);
+    ordenarArbolBinario(&juego->jugadores, compararTurnos);
+
+    liberarOrden(&orden);
     return TODO_OK;
 }
 
 void mostrarJugadores(tJuego* juego)
 {
     puts("Orden de los jugadores.");
-    recorrerLista(&juego->jugadores, mostrarJugador);        ///recorrer arbol
+    mapInOrden(&juego->jugadores,mostrarJugador);        ///recorrer arbol
     puts("Ingrese alguna tecla para continuar...");
     getch();
     fflush(stdin);
@@ -214,7 +216,9 @@ void iniciarJuego(tJuego* juego)
 
     for(i = 0; i < juego->cantJugadores; i ++)
     {
-        obtenerDatoPorIndex(&juego->jugadores, &jugadorActual, sizeof(tJugador), i);   /// buscarElementoPorClaveArbol
+        jugadorActual.turno = i + 1;
+        obtenerDatoPorClaveArbol(&juego->jugadores, &jugadorActual,
+                                 sizeof(tJugador), compararTurnos);
 
         fprintf(stdout, "Jugador actual: %s\n", jugadorActual.nombre);
         fprintf(stdout, "Tiempo por round: %d segundos\n", juego->tiempoRound);
@@ -348,13 +352,8 @@ void generarImpresion(tJuego* juego, FILE* salida)
     int rondaActual;
     tJugador jugadorActual;
 
-    fprintf(salida, "LETRA-JUGADOR");
-    for(i = 0; i < juego->cantJugadores; i ++)
-    {
-        obtenerDatoPorIndex(&juego->jugadores, &jugadorActual, sizeof(tJugador), i);   ///buscarArbolPorClave
-        fprintf(salida,"\t%-17s",jugadorActual.nombre);
-    }
-
+    fprintf(salida, "LETRA-JUGADOR\t");
+    mapInOrdenConContexto(&juego->jugadores, salida, imprimirNombreJugador);
     fprintf(salida,"\n");
 
     for(rondaActual = 0; rondaActual < juego->cantRondas; rondaActual ++)
@@ -369,7 +368,7 @@ void generarImpresion(tJuego* juego, FILE* salida)
         fprintf(salida,"\n");
     }
 
-    fprintf(salida,"RESULT:\t\t\t");
+    fprintf(salida,"RESULT:\t\t\t ");
     for(i = 0; i < juego->cantJugadores; i ++)
         fprintf(salida,"\t%2d\t\t", juego->resultados[i]);
     fprintf(salida, "\n");
@@ -379,11 +378,13 @@ void generarImpresion(tJuego* juego, FILE* salida)
     {
         if(juego->resultados[i] == juego->puntajeGanador)
         {
-            obtenerDatoPorIndex(&juego->jugadores, &jugadorActual, sizeof(tJugador),i);       ///buscar por clave arbol o recorrer
+            jugadorActual.turno = i + 1;
+            obtenerDatoPorClaveArbol(&juego->jugadores, &jugadorActual,
+                                     sizeof(tJugador), compararTurnos);
             fprintf(salida,"|%s| ", jugadorActual.nombre);
         }
     }
-    fprintf(salida,"\nPUNTAJE GANADOR:%d\n", juego->puntajeGanador);
+    fprintf(salida, "\nPUNTAJE GANADOR: %d\n\n", juego->puntajeGanador);
 }
 
 
@@ -397,7 +398,7 @@ void cerrarJuego(tJuego* juego)
     free(juego->tableroResp);
     free(juego->resultados);
     free(juego->letras);
-    vaciarLista(&juego->jugadores);     ///vaciar arbol
+    vaciarArbol(&juego->jugadores);
     liberarCurl(&juego->curl);
 }
 
@@ -414,7 +415,7 @@ int calcularPuntos(tRespuesta** tableroResp, tRespuesta* actual,
     {
         if(hayOtroLargoPeroDiferente(tableroResp, actual, ordenJugador,
                                      rondaActual, longMasLarga, cantJugadores)
-           && !esRepetido(tableroResp, actual, ordenJugador, rondaActual, cantJugadores))       //se fija en toda la lista , si hay otro con misma longitud pero diferente palabra
+                && !esRepetido(tableroResp, actual, ordenJugador, rondaActual, cantJugadores))       //se fija en toda la lista , si hay otro con misma longitud pero diferente palabra
             return 2;
         if(esSegundoRepetido(tableroResp, actual, ordenJugador, rondaActual)) //se fija si ya habia una palabra igual a esta con anterioridad
             return -1;
@@ -433,7 +434,7 @@ int obtenerValorLongitudMasLarga(tJuego* juego, int rondaActual)  //esto se hace
 
     for(i = 0; i < juego->cantJugadores; i ++)  //ya que recorre una ronda
         if(juego->tableroResp[i][rondaActual].validez == VERDADERO &&
-           juego->tableroResp[i][rondaActual].longitud > mayorLongitud)
+                juego->tableroResp[i][rondaActual].longitud > mayorLongitud)
             mayorLongitud = juego->tableroResp[i][rondaActual].longitud;
     return mayorLongitud;
 }
@@ -447,16 +448,16 @@ int hayOtroLargoPeroDiferente(tRespuesta** tableroResp, tRespuesta* actual,
     for(i = 0; i < ordenJugador; i ++)
     {
         if(tableroResp[i][rondaActual].validez == VERDADERO &&
-           tableroResp[i][rondaActual].longitud == longMasLarga &&
-           strcmp(tableroResp[i][rondaActual].palabra, actual->palabra) != 0)
+                tableroResp[i][rondaActual].longitud == longMasLarga &&
+                strcmp(tableroResp[i][rondaActual].palabra, actual->palabra) != 0)
             return SI;
     }
 
     for(i = ordenJugador + 1; i < cantJugadores; i++)
     {
         if(tableroResp[i][rondaActual].validez == VERDADERO &&
-           tableroResp[i][rondaActual].longitud == longMasLarga &&
-           strcmp(tableroResp[i][rondaActual].palabra, actual->palabra) != 0)
+                tableroResp[i][rondaActual].longitud == longMasLarga &&
+                strcmp(tableroResp[i][rondaActual].palabra, actual->palabra) != 0)
             return SI;
     }
 
@@ -471,16 +472,16 @@ int esRepetido(tRespuesta** tableroResp, tRespuesta* actual, int ordenJugador,
     for(i = 0; i < ordenJugador; i ++)
     {
         if(tableroResp[i][rondaActual].validez == VERDADERO &&
-           tableroResp[i][rondaActual].longitud == tableroResp[ordenJugador][rondaActual].longitud &&
-           strcmp(tableroResp[i][rondaActual].palabra,actual->palabra) == 0)
+                tableroResp[i][rondaActual].longitud == tableroResp[ordenJugador][rondaActual].longitud &&
+                strcmp(tableroResp[i][rondaActual].palabra,actual->palabra) == 0)
             return SI;
     }
 
     for(int i = ordenJugador + 1; i < cantJugadores; i++)
     {
         if(tableroResp[i][rondaActual].validez == VERDADERO &&
-           tableroResp[i][rondaActual].longitud == tableroResp[ordenJugador][rondaActual].longitud &&
-           strcmp(tableroResp[i][rondaActual].palabra,actual->palabra) == 0)
+                tableroResp[i][rondaActual].longitud == tableroResp[ordenJugador][rondaActual].longitud &&
+                strcmp(tableroResp[i][rondaActual].palabra,actual->palabra) == 0)
             return SI;
     }
 
@@ -495,8 +496,8 @@ int esSegundoRepetido(tRespuesta** tableroResp, tRespuesta* actual,
     for(i = 0; i < ordenJugador; i ++)
     {
         if(tableroResp[i][rondaActual].validez == VERDADERO &&
-           tableroResp[i][rondaActual].longitud == actual->longitud &&
-           strcmp(tableroResp[i][rondaActual].palabra,actual->palabra) == 0)
+                tableroResp[i][rondaActual].longitud == actual->longitud &&
+                strcmp(tableroResp[i][rondaActual].palabra,actual->palabra) == 0)
             return SI;
     }
     return NO;

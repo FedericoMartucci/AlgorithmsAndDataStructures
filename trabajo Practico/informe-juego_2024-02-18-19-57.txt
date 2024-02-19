@@ -1,9 +1,0 @@
-LETRA-JUGADOR juan                 pedro                fede                 
-  F:                            0                    0                    0  
-  S:                            0                    0                    0  
-  G:                            0                    0                    0  
-  H:                            0                    0                    0  
-  Q:                            0                    0                    0  
-RESULT:                         0                    0                    0  
-GANADORES: |juan| |pedro| |fede| 
-PUNTAJE GANADOR:0

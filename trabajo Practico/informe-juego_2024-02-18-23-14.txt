@@ -1,0 +1,10 @@
+LETRA-JUGADOR	agustin              marcos               federico             
+L:		laucha            1	lazarillo         3	lamparas          1	
+G:		gato              1	gaita             1	garrafa           3	
+O:		oso               2	ojo               2	ostia            -2	
+U:		untar             1	unos              1	urraca            3	
+D:		dedo              1	dedos             3	                  0	
+RESULT:			 	 6			10			 5		
+GANADORES: |marcos| 
+PUNTAJE GANADOR: 10
+
