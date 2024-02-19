@@ -1,8 +1,8 @@
 #include "jugador.h"
 
-int compararTurnos(const void* dato1,const void* dato2)
+int compararTurnos(const void* jugador1, const void* jugador2)
 {
-    return ((tJugador*)dato1)->turno - ((tJugador*)dato2)->turno;
+    return ((tJugador*)jugador1)->turno - ((tJugador*)jugador2)->turno;
 }
 
 void mostrarJugador(void* dato)
@@ -11,23 +11,26 @@ void mostrarJugador(void* dato)
     printf("Turno %d - Jugador: %s\n", jugador->turno, jugador->nombre);
 }
 
-void cambiarTurnos(void* jugador,void *dato)
+void cambiarTurnos(void* jugador, void *dato)
 {
-    tJugador* pJugador=jugador;
-    tOrden* orden=dato;
-    pJugador->turno=orden->posiciones[orden->actual];
-    orden->actual++;
+    tJugador* pJugador = jugador;
+    tOrden* orden = dato;
+
+    pJugador->turno = orden->posiciones[orden->actual];
+    orden->actual ++;
 }
 
-int inicializarOrden(tOrden* orden,int cant)
+int inicializarOrden(tOrden* orden, int cant)
 {
-    orden->actual=0;
+    int i;
+
+    orden->actual = 0;
     orden->posiciones = malloc(sizeof(int) * cant);
 
     if(!orden->posiciones)
         return 0;
 
-    for(int i = 0; i < cant; i++)
+    for(i = 0; i < cant; i ++)
         orden->posiciones[i] = i + 1;
 
     return 1;
@@ -40,12 +43,12 @@ void intercambiar(int *a, int *b)
     *b = aux;
 }
 
-void mezclar(int *vec, int ce)
+void mezclar(int *vec, int cantidadElementos)
 {
     int i,
         j;
 
-    for(i = ce - 1; i > 0; i--)
+    for(i = cantidadElementos - 1; i > 0; i --)
     {
         j = rand() % (i + 1);
         intercambiar((vec + i), (vec + j));
@@ -56,7 +59,7 @@ void mezclar(int *vec, int ce)
 
 void mezclarJugadores(tOrden* orden, int cant)
 {
-    mezclar(orden->posiciones,cant);
+    mezclar(orden->posiciones, cant);
 }
 
 

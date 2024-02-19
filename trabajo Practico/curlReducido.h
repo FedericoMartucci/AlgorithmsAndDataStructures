@@ -13,7 +13,7 @@
 #define PALABRA_ENCONTRADA 200
 #define PALABRA_NO_ENCONTRADA 204
 
-int cargarCurl(CURL** curl,char* x_secret);
+int cargarCurl(CURL** curl, char* x_secret);
 int enviarPalabra(CURL** curl, char* palabra);
 int obtenerRespuestaPalabra(CURL** curl);
 void liberarCurl(CURL** curl);

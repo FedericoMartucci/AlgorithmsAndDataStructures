@@ -161,10 +161,10 @@
 	<stdlib.h>
 	"juego.h"
 
-1708247107 source:c:\devs\trabajo practico\curlreducido.c
+1708302332 source:c:\devs\trabajo practico\curlreducido.c
 	"curlReducido.h"
 
-1707925113 c:\devs\trabajo practico\curlreducido.h
+1708302332 c:\devs\trabajo practico\curlreducido.h
 	<curl/curl.h>
 	<stdio.h>
 	<stdlib.h>
@@ -174,14 +174,14 @@
 1708300986 source:c:\devs\trabajo practico\jugador.c
 	"jugador.h"
 
-1708297248 c:\devs\trabajo practico\jugador.h
+1708306530 c:\devs\trabajo practico\jugador.h
 	<stdio.h>
 	<stdlib.h>
 
 1708247107 source:c:\devs\trabajo practico\listadinamica.c
 	"listaDinamica.h"
 
-1708243701 c:\devs\trabajo practico\listadinamica.h
+1708302332 c:\devs\trabajo practico\listadinamica.h
 	<stddef.h>
 	<stdlib.h>
 	<string.h>
@@ -200,7 +200,7 @@
 	<stdio.h>
 	<ctype.h>
 
-1708297590 c:\devs\trabajo practico\teclado.h
+1708306530 c:\devs\trabajo practico\teclado.h
 	<stdio.h>
 	<stdlib.h>
 	<conio.h>
@@ -211,6 +211,6 @@
 1708297590 source:c:\devs\trabajo practico\teclado.c
 	"teclado.h"
 
-1708301177 source:c:\devs\trabajo practico\juego.c
+1708301736 source:c:\devs\trabajo practico\juego.c
 	"juego.h"
 

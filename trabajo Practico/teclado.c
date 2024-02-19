@@ -13,7 +13,7 @@ void obtenerOpcionPorTeclado(char* opcion){
     fflush(stdin);
 }
 
-void obtenerPalabraDuranteNSegundos(char* palabra,int tiempoLimite)
+void obtenerPalabraDuranteNSegundos(char* palabra, int tiempoLimite)
 {
     *palabra='\0';
 

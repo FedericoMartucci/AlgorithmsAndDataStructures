@@ -15,12 +15,12 @@ typedef struct{
     int actual;
 }tOrden;
 
-int inicializarOrden(tOrden* orden,int cant);
+int inicializarOrden(tOrden* orden, int cant);
 void mezclarJugadores(tOrden* orden, int cant);
 void liberarOrden(tOrden* orden);
 
-int compararTurnos(const void* d1,const void* d2);
+int compararTurnos(const void* jugador1, const void* jugador2);
 void mostrarJugador(void* dato);
-void cambiarTurnos(void* jugador,void *dato);
+void cambiarTurnos(void* jugador, void *dato);
 
 #endif // JUGADOR_H_INCLUDED
