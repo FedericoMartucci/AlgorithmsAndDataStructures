@@ -1,0 +1,9 @@
+LETRA-JUGADOR	juan             	federico         	alberto          
+D:		diamante          3	d                 1	dado              1	
+G:		goma              2	g                 1	gato              2	
+W:		walkietalkie     -2	wiskas           -2	w                 3	
+H:		herrero           3	helado            1	h                 1	
+X:		xxx              -2	                  0	                  0	
+RESULT:				 4		 1		 7	
+GANADORES: |alberto| 
+PUNTAJE GANADOR:7

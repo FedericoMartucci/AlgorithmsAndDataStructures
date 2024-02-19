@@ -16,7 +16,7 @@ typedef struct{
 }tOrden;
 
 int inicializarOrden(tOrden* orden,int cant);
-void ramdomizarOrden(tOrden* orden,int cant);
+void mezclarJugadores(tOrden* orden, int cant);
 void liberarOrden(tOrden* orden);
 
 int compararTurnos(const void* d1,const void* d2);

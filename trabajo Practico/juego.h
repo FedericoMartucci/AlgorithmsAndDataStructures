@@ -61,7 +61,8 @@ void AccionesSiEsModoPrueba(tJuego* juego);
 void crearJuego(tJuego* juego);
 int cargarJuego(tJuego* juego, char *x_secret);     //aca se le envia el archivo o recibe el arcivo txt de datos iniciales
 void ingresarJugadores(tJuego* juego);
-int hayJugadores(tJuego* juego);
+void ingresarNombreJugador(int numJugador, tJugador* jugadorActual);
+int hayJugadores(const tJuego* juego);
 int sortearOrdenJugadores(tJuego* juego);
 void mostrarJugadores(tJuego* juego);
 int crearTableroResp(tJuego* juego);
@@ -71,11 +72,17 @@ void determinarPuntos(tJuego* juego);
 void imprimirResultados(tJuego* juego); //faltaria enviarle por parametro el FILE*
 void generarImpresion(tJuego * juego, FILE* salida);
 
-int calcularPuntos(tRespuesta** tableroResp,tRespuesta* actual, int ordenJugador, int rondaActual, int longMasLarga, int cantJugadores);
+int calcularPuntos(tRespuesta** tableroResp, tRespuesta* actual,
+                   int ordenJugador, int rondaActual, int longMasLarga,
+                   int cantJugadores);
 int obtenerValorLongitudMasLarga(tJuego* juego,int rondaActual);
-int hayOtroLargoPeroDiferente(tRespuesta** tableroResp, tRespuesta* actual, int ordenJugador, int rondaActual, int longMasLarga, int cantJugadores);
-int esRepetido(tRespuesta** tableroResp, tRespuesta* actual, int ordenJugador, int rondaActual, int cantJugadores);
-int esSegundoRepetido(tRespuesta** tableroResp, tRespuesta* actual, int ordenJugador, int rondaActual);
+int hayOtroLargoPeroDiferente(tRespuesta** tableroResp, tRespuesta* actual,
+                              int ordenJugador, int rondaActual,
+                              int longMasLarga, int cantJugadores);
+int esRepetido(tRespuesta** tableroResp, tRespuesta* actual, int ordenJugador,
+               int rondaActual, int cantJugadores);
+int esSegundoRepetido(tRespuesta** tableroResp, tRespuesta* actual,
+                      int ordenJugador, int rondaActual);
 void ingresarLetrasAleatoriamente(char* letras, int cantRondas);
 void cerrarJuego(tJuego* juego);
 

@@ -10,7 +10,7 @@
 
 #define MAX_NAME_LENGTH 100
 char obtenerLetraPorTeclado();
-void obtenerPalabraduranteNSegundos(char* palabra,int tiempoLimite);
+void obtenerPalabraDuranteNSegundos(char* palabra,int tiempoLimite);
 void obtenerOpcionPorTeclado(char* opcion);
 
 

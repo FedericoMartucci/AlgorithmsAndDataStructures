@@ -1,15 +1,14 @@
 #include "jugador.h"
 
-int compararTurnos(const void* d1,const void* d2)
+int compararTurnos(const void* dato1,const void* dato2)
 {
-    const tJugador* dato1=d1;
-    const tJugador* dato2=d2;
-    return dato1->turno-dato2->turno;
+    return ((tJugador*)dato1)->turno - ((tJugador*)dato2)->turno;
 }
+
 void mostrarJugador(void* dato)
 {
-    tJugador* jugador=dato;
-    printf("turno:%d nombre:%s\n",jugador->turno,jugador->nombre);
+    tJugador* jugador = dato;
+    printf("Turno %d - Jugador: %s\n", jugador->turno, jugador->nombre);
 }
 
 void cambiarTurnos(void* jugador,void *dato)
@@ -55,7 +54,7 @@ void mezclar(int *vec, int ce)
     }
 }
 
-void ramdomizarOrden(tOrden* orden,int cant)
+void mezclarJugadores(tOrden* orden, int cant)
 {
     mezclar(orden->posiciones,cant);
 }

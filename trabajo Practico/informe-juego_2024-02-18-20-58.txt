@@ -1,0 +1,9 @@
+LETRA-JUGADOR Juan             	Pedro            	
+Q:			                  0	q                 3	
+E:			elefante          3	e                 1	
+P:			papa              3	p                 1	
+M:			moco              3	m                 1	
+A:			arbol             3	arbol            -1	
+RESULT:						12  				 5  
+GANADORES: |Juan| 
+PUNTAJE GANADOR:12

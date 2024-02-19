@@ -1,0 +1,9 @@
+LETRA-JUGADOR	juancito         		pepe             		feded            	
+	E:		elefante          3	elefante         -1	esteban           1	
+	F:		franco            3	fanta            -2	franco           -1	
+	Y:		yama             -2	yema              3	yamil            -2	
+	O:		ostia            -2	oso               3	ormiga           -2	
+	X:		xilofono          3	xilofono         -1	                  0	
+RESULT:				 5				 2				-4		
+GANADORES: |juancito| 
+PUNTAJE GANADOR:5

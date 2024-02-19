@@ -1,0 +1,9 @@
+LETRA-JUGADOR	fede             	pedro            	juan             
+X:		xaxa             -2	jajsj            -2	xilofon           3	
+I:		indio             1	sano             -2	inicial           3	
+M:		manco             3	waodjawpo        -2	manco            -1	
+J:		joaco            -2	kanka            -2	jamon             3	
+K:		kaka              1	ooe              -2	kiosco            3	
+RESULT:				 1		-10		11	
+GANADORES: |juan| 
+PUNTAJE GANADOR:11
