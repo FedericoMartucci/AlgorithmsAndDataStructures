@@ -2,7 +2,9 @@
 
 void crearJuego(tJuego* juego)
 {
-    crearLista(&juego->jugadores);
+    crearArbol(&juego->jugadores);
+    juego->jugadoresCargados = NULL;
+    juego->ordenes = NULL;
     juego->letras = NULL;
     juego->tableroResp = NULL;
     juego->tiempoRound = 0;
@@ -11,13 +13,14 @@ void crearJuego(tJuego* juego)
     juego->resultados = NULL;
     juego->curl = NULL;
     juego->puntajeGanador = PUNTAJE_INICIAL;      //un numero bastante grande como para que sea el menor puntaje
+    juego->codigoError = NO_HAY_ERRORES;
     juego->modoPrueba = DESACTIVADO;
     inicializarAleatoriedad();
 }
 
 int esOpcionValida(char* opcion)
 {
-    return !(strcmp(opcion, "A") == 0 || strcmp(opcion, "B") == 0 );
+    return !(strcmp(opcion, "A") == 0 || strcmp(opcion, "B") == 0);
 }
 
 int esOpcionIniciarJuego(char* opcion)
@@ -25,7 +28,7 @@ int esOpcionIniciarJuego(char* opcion)
     return strcmp(opcion,"A") == 0;
 }
 
-void verificarSiPideModoPrueba(tJuego* juego, char* opcion)
+void verificarSiPideModoPrueba(tJuego* juego, const char* opcion)
 {
     if(strcmp(opcion,"activarModoPrueba") == 0 && juego->modoPrueba == DESACTIVADO)
     {
@@ -62,20 +65,14 @@ void ingresarLetrasEnModoPrueba(char* letras, int cantRondas)
 
 void AccionesSiEsModoPrueba(tJuego* juego)
 {
-    if(juego->modoPrueba == ACTIVADO)
-        ingresarLetrasEnModoPrueba(juego->letras,juego->cantRondas);
+    if(juego->modoPrueba == ACTIVADO && juego->letras != NULL)
+        ingresarLetrasEnModoPrueba(juego->letras, juego->cantRondas);
 }
 
 int cargarJuego(tJuego* juego, char* xSecret)
 {
     FILE *pfConfig;
     char linea[MAX_LINEA_CONFIG];
-
-    if (cargarCurl(&juego->curl, xSecret) == NO_PUDO_CARGAR)
-    {
-        juego->codigoError = ERROR_CARGA_CURL;
-        return ERROR_CARGA_CURL;
-    }
 
     if(!(pfConfig = fopen("config.txt", "rt")))
     {
@@ -90,6 +87,18 @@ int cargarJuego(tJuego* juego, char* xSecret)
         sscanf(linea, "Tiempo por round: %d", &juego->tiempoRound);
 
     fclose(pfConfig);
+
+    if(cargarCurl(&juego->curl, xSecret) == NO_PUDO_CARGAR)
+    {
+        juego->codigoError = ERROR_CARGA_CURL;
+        return ERROR_CARGA_CURL;
+    }
+
+    if(verificarConectividad(&juego->curl) != TODO_OK)
+    {
+        juego->codigoError = ERROR_API_NO_CONECTADA;
+        return ERROR_API_NO_CONECTADA;
+    }
 
     if(juego->cantRondas <= 0 || juego->cantRondas > ('Z'-'A') || juego->tiempoRound <= 0)
     {
@@ -108,7 +117,7 @@ int cargarJuego(tJuego* juego, char* xSecret)
     return TODO_OK;
 }
 
-void ingresarJugadores(tJuego* juego)
+int ingresarJugadores(tJuego* juego)
 {
     int numJugador = 1;
     tJugador jugadorActual;
@@ -117,12 +126,27 @@ void ingresarJugadores(tJuego* juego)
 
     while(*(jugadorActual.nombre) != '0')
     {
-        insertarEnArbolRecursivo(&juego->jugadores, &jugadorActual,
-                                 sizeof(tJugador), compararTurnos);
+        if(juego->jugadoresCargados == NULL)
+        {
+            if((juego->jugadoresCargados = malloc(sizeof(tJugador))) == NULL)
+            {
+                juego->codigoError = SIN_MEMORIA;
+                return SIN_MEMORIA;
+            }
+        }
+        else if((juego->jugadoresCargados = (tJugador *)realloc(juego->jugadoresCargados,
+                                            sizeof(tJugador)*numJugador )) == NULL)
+        {
+            juego->codigoError = SIN_MEMORIA;
+            return SIN_MEMORIA;
+        }
+
+        memcpy(&juego->jugadoresCargados[numJugador - 1], &jugadorActual, sizeof(tJugador));
         juego->cantJugadores ++;
         numJugador ++;
         ingresarNombreJugador(numJugador, &jugadorActual);
     }
+    return TODO_OK;
 }
 
 void ingresarNombreJugador(int numJugador, tJugador* jugadorActual)
@@ -138,37 +162,54 @@ void ingresarNombreJugador(int numJugador, tJugador* jugadorActual)
 
 int hayJugadores(const tJuego* juego)
 {
-    return !arbolVacio(&juego->jugadores);
+    return juego->jugadoresCargados != NULL;
+}
+
+unsigned leerJugador(void* juego, void* dato, unsigned pos, unsigned tam)
+{
+    memcpy(dato,
+           &((tJuego*)juego)->jugadoresCargados[((tJuego*)juego)->ordenes[pos].posRealRegistro],
+           tam);
+    return TODO_OK;
 }
 
 int sortearOrdenJugadores(tJuego* juego)
 {
-    tOrden orden;
+    int i;
 
-    if(juego->modoPrueba == ACTIVADO)         //esto evita sortear la lista, si el modo de prueba esta activado
-    {
-        ordenarArbolBinario(&juego->jugadores, compararTurnos);
-        return TODO_OK;
-    }
-
-    if(!inicializarOrden(&orden, juego->cantJugadores))
+    if(!inicializarOrden(&juego->ordenes, juego->cantJugadores))
     {
         juego->codigoError = MEMORIA_LLENA;
         return MEMORIA_LLENA;
     }
 
-    mezclarJugadores(&orden, juego->cantJugadores);
-    mapInOrdenConContexto(&juego->jugadores, &orden, cambiarTurnos);
-    ordenarArbolBinario(&juego->jugadores, compararTurnos);
+    if(juego->modoPrueba == ACTIVADO)         //esto evita sortear la lista, si el modo de prueba esta activado
+    {
+        cargarDatosOrdenadosRecursivos(&juego->jugadores, juego, leerJugador, 0,
+                                       juego->cantJugadores - 1, sizeof(tJugador));
+        return TODO_OK;
+    }
 
-    liberarOrden(&orden);
+    mezclarJugadores(juego->ordenes, juego->cantJugadores);
+
+    for(i = 0; i < juego->cantJugadores; i ++)     //se le coloca la posicion ramdon al turno de los jugadores
+        juego->jugadoresCargados[i].turno = juego->ordenes[i].posSorteado;
+
+    ordenarPorInsercionPorDatoSorteo(juego->ordenes, juego->cantJugadores);
+    cargarDatosOrdenadosRecursivos(&juego->jugadores, juego, leerJugador, 0,
+                                   juego->cantJugadores - 1, sizeof(tJugador));
+
     return TODO_OK;
 }
 
 void mostrarJugadores(tJuego* juego)
 {
     puts("Orden de los jugadores.");
-    mapInOrden(&juego->jugadores,mostrarJugador);        ///recorrer arbol
+    mapInOrden(&juego->jugadores, mostrarJugador);        ///recorrer arbol
+
+    fprintf(stdout, "Cantidad de rondas: %d\n", juego->cantRondas);
+    fprintf(stdout, "Tiempo por rondas: %d segundos\n", juego->tiempoRound);
+
     puts("Ingrese alguna tecla para continuar...");
     getch();
     fflush(stdin);
@@ -197,6 +238,7 @@ int crearTableroResp(tJuego* juego)
             return MEMORIA_LLENA;
         }
     }
+
     juego->resultados = (int*) malloc(juego->cantJugadores * sizeof(int));
     if(juego->resultados == NULL)
     {
@@ -232,7 +274,9 @@ void iniciarJuego(tJuego* juego)
 
         for(rondaActual = 0; rondaActual < juego->cantRondas; rondaActual ++)
         {
-            fprintf(stdout, "Ronda %d - Letra %c -\tRespuesta: ", rondaActual + 1, juego->letras[rondaActual]);
+            fprintf(stdout, "Ronda %d - Letra %c -\tRespuesta: ",
+                    rondaActual + 1,
+                    juego->letras[rondaActual]);
             obtenerPalabraDuranteNSegundos(palabra, juego->tiempoRound);
             puts("");
             memcpy(juego->tableroResp[i][rondaActual].palabra, palabra, MAX_PAL);
@@ -246,12 +290,70 @@ void iniciarJuego(tJuego* juego)
     system("cls");
 }
 
+void normalizarPalabra(char* pal)
+{
+    while(*pal != '\0')
+    {
+        if(!ES_LETRA_COMUN(*pal))
+        {
+            switch(*pal)
+            {
+            case -96:
+                *pal = 'a';
+                break;
+            case -126:
+                *pal = 'e';
+                break;
+            case -95:
+                *pal = 'i';
+                break;
+            case -94:
+                *pal = 'o';
+                break;
+            case -93:
+                *pal = 'u';
+                break;
+            case -75:
+                *pal = 'A';
+                break;
+            case -112:
+                *pal = 'E';
+                break;
+            case -42:
+                *pal = 'I';
+                break;
+            case -32:
+                *pal = 'O';
+                break;
+            case -23:
+                *pal = 'U';
+                break;
+            case -91:
+                *pal = 'N';
+                break;
+            case -92:
+                *pal = 'n';
+                break;
+            case -102:
+                *pal = 'U';
+                break;
+            case -127:
+                *pal = 'u';
+                break;
+            }
+        }
+        pal ++;
+    }
+}
+
 int evaluarPalabras(tJuego* juego)
 {
     int i;
     int rondaActual;
     int cantEnvios = juego->cantJugadores * juego->cantRondas;
     char* palabraActual;
+    char palabraNormalizada[MAX_PAL];   //esto tomara una copia ,y quitara las tildes a la palabra ,y esto es lo que se manda al curl
+
     for(i = 0; i < juego->cantJugadores; i ++)
     {
         for(rondaActual = 0; rondaActual < juego->cantRondas; rondaActual ++)
@@ -268,7 +370,9 @@ int evaluarPalabras(tJuego* juego)
             {
                 if(tolower(*palabraActual) == tolower(juego->letras[rondaActual]))     //se compara que sean la misma letra
                 {
-                    enviarPalabra(&juego->curl, palabraActual);
+                    strcpy(palabraNormalizada, palabraActual);
+                    normalizarPalabra(palabraNormalizada);
+                    enviarPalabra(&juego->curl, palabraNormalizada);
                     switch (obtenerRespuestaPalabra(&juego->curl))
                     {
                     case PALABRA_ENCONTRADA:
@@ -391,13 +495,15 @@ void generarImpresion(tJuego* juego, FILE* salida)
 void cerrarJuego(tJuego* juego)
 {
     int i;
-    ///se libera todo la informacion, tipo vaciar, liberar, free, esto debe ir despues del la funcion
+
     if(juego->tableroResp != NULL)
         for(i = 0; i < juego->cantJugadores; i ++)
             free(juego->tableroResp[i]);
     free(juego->tableroResp);
     free(juego->resultados);
     free(juego->letras);
+    free(juego->ordenes);
+    free(juego->jugadoresCargados);
     vaciarArbol(&juego->jugadores);
     liberarCurl(&juego->curl);
 }
@@ -413,15 +519,19 @@ int calcularPuntos(tRespuesta** tableroResp, tRespuesta* actual,
         return 0;
     if(actual->longitud == longMasLarga)
     {
-        if(hayOtroLargoPeroDiferente(tableroResp, actual, ordenJugador,
-                                     rondaActual, longMasLarga, cantJugadores)
-                && !esRepetido(tableroResp, actual, ordenJugador, rondaActual, cantJugadores))       //se fija en toda la lista , si hay otro con misma longitud pero diferente palabra
-            return 2;
+        if( hayOtroLargoPeroDiferente(tableroResp, actual, ordenJugador,
+                                      rondaActual, longMasLarga, cantJugadores))
+        {
+            if(!esSegundoRepetido(tableroResp, actual, ordenJugador, rondaActual)) //se fija si ya habia una palabra igual a esta con anterioridad
+                return 2;
+            else
+                return -1;
+        }
         if(esSegundoRepetido(tableroResp, actual, ordenJugador, rondaActual)) //se fija si ya habia una palabra igual a esta con anterioridad
             return -1;
         return 3;
     }
-    if(esRepetido(tableroResp, actual, ordenJugador, rondaActual, cantJugadores))
+    if(esSegundoRepetido(tableroResp, actual, ordenJugador, rondaActual))
         return -1;
 
     return 1;
@@ -448,16 +558,16 @@ int hayOtroLargoPeroDiferente(tRespuesta** tableroResp, tRespuesta* actual,
     for(i = 0; i < ordenJugador; i ++)
     {
         if(tableroResp[i][rondaActual].validez == VERDADERO &&
-                tableroResp[i][rondaActual].longitud == longMasLarga &&
-                strcmp(tableroResp[i][rondaActual].palabra, actual->palabra) != 0)
+           tableroResp[i][rondaActual].longitud == longMasLarga &&
+           strcmp(tableroResp[i][rondaActual].palabra, actual->palabra) != 0)
             return SI;
     }
 
     for(i = ordenJugador + 1; i < cantJugadores; i++)
     {
         if(tableroResp[i][rondaActual].validez == VERDADERO &&
-                tableroResp[i][rondaActual].longitud == longMasLarga &&
-                strcmp(tableroResp[i][rondaActual].palabra, actual->palabra) != 0)
+           tableroResp[i][rondaActual].longitud == longMasLarga &&
+           strcmp(tableroResp[i][rondaActual].palabra, actual->palabra) != 0)
             return SI;
     }
 
@@ -472,16 +582,16 @@ int esRepetido(tRespuesta** tableroResp, tRespuesta* actual, int ordenJugador,
     for(i = 0; i < ordenJugador; i ++)
     {
         if(tableroResp[i][rondaActual].validez == VERDADERO &&
-                tableroResp[i][rondaActual].longitud == tableroResp[ordenJugador][rondaActual].longitud &&
-                strcmp(tableroResp[i][rondaActual].palabra,actual->palabra) == 0)
+           tableroResp[i][rondaActual].longitud == tableroResp[ordenJugador][rondaActual].longitud &&
+           strcmp(tableroResp[i][rondaActual].palabra, actual->palabra) == 0)
             return SI;
     }
 
     for(int i = ordenJugador + 1; i < cantJugadores; i++)
     {
         if(tableroResp[i][rondaActual].validez == VERDADERO &&
-                tableroResp[i][rondaActual].longitud == tableroResp[ordenJugador][rondaActual].longitud &&
-                strcmp(tableroResp[i][rondaActual].palabra,actual->palabra) == 0)
+           tableroResp[i][rondaActual].longitud == tableroResp[ordenJugador][rondaActual].longitud &&
+           strcmp(tableroResp[i][rondaActual].palabra, actual->palabra) == 0)
             return SI;
     }
 
@@ -496,8 +606,8 @@ int esSegundoRepetido(tRespuesta** tableroResp, tRespuesta* actual,
     for(i = 0; i < ordenJugador; i ++)
     {
         if(tableroResp[i][rondaActual].validez == VERDADERO &&
-                tableroResp[i][rondaActual].longitud == actual->longitud &&
-                strcmp(tableroResp[i][rondaActual].palabra,actual->palabra) == 0)
+           tableroResp[i][rondaActual].longitud == actual->longitud &&
+           strcmp(tableroResp[i][rondaActual].palabra, actual->palabra) == 0)
             return SI;
     }
     return NO;
@@ -524,12 +634,12 @@ char obtenerLetraNoRepetidaRandom(char* abecedario)
     return letraObtenida;
 }
 
-void informeErrores(int codigoError)
+void informeErrores(tJuego* juego)
 {
-    if(codigoError == NO_HAY_ERRORES)
+    if(juego->codigoError == NO_HAY_ERRORES)
         return;
 
-    switch(codigoError)
+    switch(juego->codigoError)
     {
     case MEMORIA_LLENA:
         fprintf(stderr, "Error: memoria llena.");
@@ -549,6 +659,9 @@ void informeErrores(int codigoError)
         break;
     case ERROR_PARAMETROS:
         fprintf(stderr, "Los parametros puestos en config.txt son invalidos.");
+        break;
+    case ERROR_API_NO_CONECTADA:
+        fprintf(stderr, "API no encontrada, quizas sea su conexion a internet");
         break;
     default:
         break;

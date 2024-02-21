@@ -134,3 +134,54 @@ int obtenerDatoPorClaveArbol(tArbol *pa, void *d, unsigned tam, Cmp cmp)
 
     return TODO_OK;
 }
+
+int cargarDatosOrdenadosRecursivos(tArbol* pa, void* datos, Leer leer, int li,
+                                   int ls, unsigned tam)
+{
+    int m = (li + ls) / 2;
+    int r;
+
+    if(li > ls)
+        return TODO_OK;
+
+    (*pa) = (tNodo*) malloc(sizeof(tNodo));
+    if(*pa == NULL)
+        return SIN_MEMORIA;
+
+    (*pa)->dato = malloc(tam);
+    if((*pa)->dato == NULL)
+    {
+        free(*pa);
+        return SIN_MEMORIA;
+    }
+
+    if(!leer(datos, (*pa)->dato, m, tam))
+    {
+        free((*pa)->dato);
+        free(*pa);
+        *pa = NULL;
+        return ERROR;
+    }
+
+    (*pa)->tam = tam;
+    (*pa)->izq = NULL;
+    (*pa)->der = NULL;
+
+    if((r = cargarDatosOrdenadosRecursivos(&(*pa)->izq, datos, leer, li, m - 1, tam)) != TODO_OK)
+        return r;
+    return cargarDatosOrdenadosRecursivos(&(*pa)->der, datos, leer, m + 1, ls, tam);
+}
+
+unsigned alturaArbol(tArbol * pa)
+{
+    unsigned hi;
+    unsigned hd;
+
+    if(*pa == NULL)
+        return 0;
+
+    hi = alturaArbol(&(*pa)->izq);
+    hd = alturaArbol(&(*pa)->der);
+
+    return hi > hd? hi + 1 : hd + 1;
+}

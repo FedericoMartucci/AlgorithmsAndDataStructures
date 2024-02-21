@@ -14,6 +14,7 @@
 #define PALABRA_NO_ENCONTRADA 204
 
 int cargarCurl(CURL** curl, char* x_secret);
+int verificarConectividad(CURL** curl);
 int enviarPalabra(CURL** curl, char* palabra);
 int obtenerRespuestaPalabra(CURL** curl);
 void liberarCurl(CURL** curl);

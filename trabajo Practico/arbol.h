@@ -9,14 +9,16 @@
 
 #define FALSE 0
 #define TRUE 1
-#define SIN_MEMORIA 3
-#define SIN_ELEMENTOS 2
-#define TODO_OK 1
+
 #define ERROR 0
-#define INGRESO_MAS_ELEMENTO 5
+#define TODO_OK 1
+#define SIN_ELEMENTOS 2
+#define SIN_MEMORIA 3
 #define ELIMINARON_ELEMENTOS 4
-#define NO_ENCONTRADO 0
+#define INGRESO_MAS_ELEMENTO 5
 #define CLAVE_DUP 6
+
+#define NO_ENCONTRADO 0
 
 typedef struct sNodo_a
 {
@@ -32,6 +34,7 @@ typedef int (*Cmp)(const void*, const void*);
 typedef void (*Accion)(void*);
 typedef void (*Accion2)(void*, void*);
 typedef void (*fReduce)(void*, const void*);    //dato a acumular- dato de la lista
+typedef unsigned (*Leer)(void*, void*, unsigned, unsigned);
 
 void crearArbol(tArbol* pa);
 int arbolVacio(tArbol* pa);
@@ -41,5 +44,8 @@ void mapInOrdenConContexto(tArbol* pa, void* contexto, Accion2 accion);
 void ordenarArbolBinario(tArbol* pa, Cmp cmp);
 void vaciarArbol(tArbol *pa);
 int obtenerDatoPorClaveArbol(tArbol *pa, void *d, unsigned tam, Cmp cmp);
+int cargarDatosOrdenadosRecursivos(tArbol* pa, void* datos, Leer leer, int li,
+                                   int ls, unsigned tam);
+unsigned alturaArbol(tArbol* pa);
 
 #endif // ARBOL_H_INCLUDED

@@ -6,9 +6,11 @@ int main()
     tJuego juego;
     crearJuego(&juego);
 
-    if(!cargarJuego(&juego, "X-Secret: a0a16e77b741c7ef61af030eeb24a4027dfb64dd50b7f7c34bbb499b20b15eef"))   //escribir aca su codigo secreto de la pagina pons
+    if(cargarJuego(&juego, "X-Secret: a0a16e77b741c7ef61af030eeb24a4027dfb64dd50b7f7c34bbb499b20b15eef") != TODO_OK)   //escribir aca su codigo secreto de la pagina pons
     {
         fprintf(stderr, "No se pudo cargar el juego");
+        informeErrores(&juego);
+        cerrarJuego(&juego);
         return 0;
     }
 
@@ -27,8 +29,7 @@ int main()
 
     if(esOpcionIniciarJuego(opcion))
     {
-        ingresarJugadores(&juego);
-        if(hayJugadores(&juego))
+        if(ingresarJugadores(&juego) == TODO_OK && hayJugadores(&juego))
         {
             if(crearTableroResp(&juego) == TODO_OK &&
                sortearOrdenJugadores(&juego) == TODO_OK)
@@ -47,7 +48,7 @@ int main()
     puts("Fin del juego, ingrese una tecla para continuar...");
     getch();
 
-    //void informeErrores(int codigoError);
+    informeErrores(&juego);
 
     cerrarJuego(&juego);
 

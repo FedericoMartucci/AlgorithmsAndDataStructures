@@ -8,7 +8,8 @@ char obtenerLetraPorTeclado()
     return opcion;      //deolver siempre en mayuscula la opcion
 }
 
-void obtenerOpcionPorTeclado(char* opcion){
+void obtenerOpcionPorTeclado(char* opcion)
+{
     scanf("%s", opcion);
     fflush(stdin);
 }
@@ -52,5 +53,4 @@ void obtenerPalabraDuranteNSegundos(char* palabra, int tiempoLimite)
         }
     }
     fflush(stdin);  // por la dudas, habria que fijarse si deberia estar
-
 }

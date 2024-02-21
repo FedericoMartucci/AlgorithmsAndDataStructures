@@ -14,5 +14,4 @@ char obtenerLetraPorTeclado();
 void obtenerPalabraDuranteNSegundos(char* palabra, int tiempoLimite);
 void obtenerOpcionPorTeclado(char* opcion);
 
-
 #endif // TECLADO_H_INCLUDED

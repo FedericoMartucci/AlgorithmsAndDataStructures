@@ -25,6 +25,16 @@ int cargarCurl(CURL** curl, char* x_secret)
     return TODO_OK;
 }
 
+int verificarConectividad(CURL** curl){
+    CURLcode res;
+    char url[100] = "https://www.google.com.ar";
+    curl_easy_setopt(*curl, CURLOPT_URL, url);
+    res = curl_easy_perform(*curl); //primero esto
+    if(res != CURLE_OK)
+        return ERROR_SOLICITUD;
+    return TODO_OK;
+}
+
 int enviarPalabra(CURL** curl, char* palabra)
 {
     CURLcode res;
@@ -52,10 +62,10 @@ int obtenerRespuestaPalabra(CURL** curl)
     return http_code;
 }
 
-
-
 void liberarCurl(CURL** curl)
 {
+    if(*curl == NULL)
+        return;
     curl_easy_cleanup(*curl);    // Limpiar y cerrar el manejo de curl
     curl_global_cleanup();      // Finalizar el manejo global de curl
 }
